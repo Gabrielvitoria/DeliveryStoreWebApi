@@ -3,9 +3,12 @@
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
 namespace DeliveryStoreWebApi.Controllers {
-    [Route("api/[controller]")]
+    [Route("api/v1/[controller]")]
     [ApiController]
+    [ApiVersion("1.0")]
     public class ProductController : ControllerBase {
+        
+        
         // GET: api/<ProductController>
         [HttpGet]
         public IEnumerable<string> Get() {

@@ -2,8 +2,9 @@
 using Microsoft.AspNetCore.Mvc;
 
 namespace DeliveryStoreWebApi.Controllers {
-    [Route("api/[controller]")]
+    [Route("api/v1/[controller]")]
     [ApiController]
+    [ApiVersion("1.0")]
     public class SalesController : ControllerBase {
 
         // POST api/<ProductController>
