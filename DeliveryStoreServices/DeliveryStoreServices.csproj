@@ -13,7 +13,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\DeliveryStoreCommon\DeliveryStoreCommon.csproj" />
-    <ProjectReference Include="..\DeliveryStoreDomain\DeliveryStoreDomain.csproj" />
     <ProjectReference Include="..\DeliveryStoreInfra\DeliveryStoreInfra.csproj" />
   </ItemGroup>
 

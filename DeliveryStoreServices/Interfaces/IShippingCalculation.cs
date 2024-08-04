@@ -1,6 +1,6 @@
 ﻿namespace DeliveryStoreServices.Interfaces {
     public interface IShippingCalculation
     {
-        public decimal GetShippingCost(string zipCode);
+        Task<decimal> GetShippingCostAsync(string zipCode);
     }
 }

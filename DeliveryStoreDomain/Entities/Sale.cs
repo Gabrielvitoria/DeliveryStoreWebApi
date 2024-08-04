@@ -4,7 +4,7 @@
         public Sale(){ }
 
         public Sale(string code, SaleStatusEnum status, string zipCode, string fees, IList<SalesProductItens> salesProductItens) {
-            Id = Guid.NewGuid();
+            Id = Guid.NewGuid().ToString();
             Code = code;
             Status = status;
             ZipCode = zipCode;

@@ -2,10 +2,10 @@
 
 namespace DeliveryStoreInfra.Interfaces {
     public interface IProductRepository {
-        public Task<IEnumerable<Product>> GetAllAsync();
-        public Task<Product> GetProductByIdAsync(Guid productId);
-        public Task<Product> CreateAsync(Product product);
-        public Task<Product> UpdateAsync(Product product);
-        public Task<Product> DeleteAsync(Product product);
+        Task<IEnumerable<Product>> GetAllAsync();
+        Task<Product> GetProductByIdAsync(Guid productId);
+        Task<Product> CreateAsync(Product product);
+        Task<Product> UpdateAsync(Product product);
+        Task<Product> DeleteAsync(Product product);
     }
 }

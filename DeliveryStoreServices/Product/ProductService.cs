@@ -1,11 +1,35 @@
 ﻿using DeliveryStoreCommon.Dtos.Product;
-using Entities = DeliveryStoreDomain.Entities;
 using DeliveryStoreInfra.Interfaces;
-using DeliveryStoreServices._1.Interfaces;
+using DeliveryStoreServices.Interfaces;
 
 namespace DeliveryStoreServices.Product {
     public class ProductService : IProductService {
 
+        private readonly IProductRepository _repository;
+        public ProductService(IProductRepository productRepository) {
+            _repository = productRepository;
+        }
+
+        public Task<ProductDto> ChangeProductAsync(ChangeProductDto newProductDto) {
+            throw new NotImplementedException();
+        }
+
+        public Task<ProductDto> CreateProductAsync(CreateProductDto newProductDto) {
+            throw new NotImplementedException();
+        }
+
+        public Task<ProductDto> DeleteProductAsync(Guid productId) {
+            throw new NotImplementedException();
+        }
+
+        public async Task<IEnumerable<ProductDto>> GetAllProductAsync() {
+            var products = await _repository.GetAllAsync();
+
+            return new List<ProductDto>();
+        }
+
+
+        /*
         public readonly IProductRepository productRepository;
 
         public ProductService(IProductRepository productRepository) {
@@ -89,5 +113,7 @@ namespace DeliveryStoreServices.Product {
                 throw new Exception(ex.Message);
             }
         }
+        */
+
     }
 }

@@ -1,8 +1,19 @@
-﻿using DeliveryStoreDomain.Entities;
+﻿
+using Dapper;
+using DeliveryStoreDomain.Entities;
 using DeliveryStoreInfra.Interfaces;
 
 namespace DeliveryStoreInfra.Repositories {
-    internal class ProductRepository : IProductRepository {
+    public class ProductRepository : IProductRepository {
+
+        private DeliveryContext _context;
+
+
+        public ProductRepository(DeliveryContext context) {
+
+            _context = context;
+        }
+
         public Task<Product> CreateAsync(Product product) {
             throw new NotImplementedException();
         }
@@ -11,8 +22,12 @@ namespace DeliveryStoreInfra.Repositories {
             throw new NotImplementedException();
         }
 
-        public Task<IEnumerable<Product>> GetAllAsync() {
-            throw new NotImplementedException();
+        public async Task<IEnumerable<Product>> GetAllAsync() {
+            using var connection = _context.CreateConnection();
+            var sql = """
+                        SELECT Id, Name, Quantity, Deleted FROM Product
+                      """;
+            return await connection.QueryAsync<Product>(sql);
         }
 
         public Task<Product> GetProductByIdAsync(Guid productId) {
@@ -22,5 +37,7 @@ namespace DeliveryStoreInfra.Repositories {
         public Task<Product> UpdateAsync(Product product) {
             throw new NotImplementedException();
         }
+
+      
     }
 }

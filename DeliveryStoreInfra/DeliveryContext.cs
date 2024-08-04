@@ -1,23 +1,39 @@
-﻿using DeliveryStoreDomain.Entities;
-using Microsoft.EntityFrameworkCore;
+﻿using Dapper;
+using Microsoft.Data.Sqlite;
+using Microsoft.Extensions.Configuration;
+using System.Data;
 
 namespace DeliveryStoreInfra {
-    public class DeliveryContext : DbContext {
+    public class DeliveryContext  {
 
-        public DeliveryContext(DbContextOptions<DeliveryContext> options) : base(options) {
+        protected readonly IConfiguration Configuration;
+
+
+        public DeliveryContext(IConfiguration configuration) {
+            Configuration = configuration;
         }
 
 
-        public DbSet<Product> Product { get; set; }
+        public IDbConnection CreateConnection() {
+            return new SqliteConnection(Configuration.GetConnectionString("WebApiDatabase"));
+        }
 
+        public async Task Init() {
+            // create database tables if they don't exist
+            using var connection = CreateConnection();
+            connection.Open();
 
+            await _initProduct();
 
-        protected override void OnModelCreating(ModelBuilder builder) {
-            
-            builder.Entity<Product>().HasKey(m => m.Id);
-
-
-            base.OnModelCreating(builder);
+            async Task _initProduct() {
+                var sql = """ 
+                    CREATE TABLE IF NOT EXISTS Product (Id NVARCHAR(36) NOT NULL PRIMARY KEY, 
+                                                        Name TEXT,
+                                                        Quantity INTEGER,
+                                                        Deleted INTEGER);                    
+                    """;
+                await connection.ExecuteAsync(sql);
+            }
         }
     }
 }

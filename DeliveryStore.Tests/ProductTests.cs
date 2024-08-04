@@ -7,7 +7,7 @@ namespace DeliveryStore.Tests.ProductTests {
         public void ShouldCreateProduct() {
 
             var product = new Product("Mouse", 1);
-            Assert.True(product.Id != Guid.Empty);
+            Assert.True(product.Id != string.Empty);
             Assert.Equal("Mouse", product.Name);
             Assert.Equal(1, product.Quantity);
             Assert.Equal(DateTime.Now.Date, DateTime.Now.Date);
@@ -18,7 +18,7 @@ namespace DeliveryStore.Tests.ProductTests {
             var product = new Product("Mouse", 1);
 
             product.Change("Mouse", 2);
-            Assert.True(product.Id != Guid.Empty);
+            Assert.True(product.Id != string.Empty);
             Assert.Equal("Mouse", product.Name);
             Assert.Equal(2, product.Quantity);
         }
@@ -29,7 +29,7 @@ namespace DeliveryStore.Tests.ProductTests {
 
             product.Delete();
 
-            Assert.True(product.Deleted);
+            Assert.Equal(1, product.Deleted);
         }
     }
 }

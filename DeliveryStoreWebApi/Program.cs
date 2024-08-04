@@ -1,4 +1,11 @@
+//using DeliveryStoreDomain.Interfaces;
+//using DeliveryStoreInfra.Repositories;
 
+using DeliveryStoreInfra;
+using DeliveryStoreInfra.Interfaces;
+using DeliveryStoreInfra.Repositories;
+using DeliveryStoreServices.Interfaces;
+using DeliveryStoreServices.Product;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -10,17 +17,30 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 //var connection = builder.Configuration["ConexaoSqlite:SqliteConnectionString"];
-
 //builder.Services.AddDbContext<DeliveryContext>(options => options.UseSqlite(connection));
 
+builder.Services.AddSingleton<DeliveryContext>();
+
+//IoC Services
+builder.Services.AddScoped<IProductService, ProductService>();
 
 
-//IoC
-//builder.Services.AddTransient<IProductService, ProductService>();
-//builder.Services.AddTransient<IShippingCalculation, ShippingCalculation>();
+//IoC Repo
+builder.Services.AddScoped<IProductRepository, ProductRepository>();
+
 
 
 var app = builder.Build();
+
+
+// ensure database and tables exist
+{
+    using var scope = app.Services.CreateScope();
+    var context = scope.ServiceProvider.GetRequiredService<DeliveryContext>();
+    
+    await context.Init();
+}
+
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment()) {
