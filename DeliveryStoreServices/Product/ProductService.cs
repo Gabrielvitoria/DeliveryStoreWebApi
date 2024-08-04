@@ -10,8 +10,25 @@ namespace DeliveryStoreServices.Product {
             _repository = productRepository;
         }
 
-        public Task<ProductDto> ChangeProductAsync(ChangeProductDto newProductDto) {
-            throw new NotImplementedException();
+        public async Task<ProductDto> ChangeProductAsync(Guid productId, ChangeProductDto productDto) {
+
+            if (productDto == null) { throw new NotImplementedException(); }
+
+            try {
+                var product = await this._repository.GetProductByIdAsync(productId);
+
+                if (product == null) { throw new NotImplementedException(); }
+
+                product.Change(productDto.Name, productDto.Quantity);
+
+                await this._repository.UpdateAsync(product);
+
+                return new ProductDto { Id = new Guid(product.Id), Name = product.Name, Quantity = product.Quantity };
+            }
+            catch (Exception ex) {
+
+                throw new Exception(ex.Message);
+            }
         }
 
         public async Task<ProductDto> CreateProductAsync(CreateProductDto newProductDto) {

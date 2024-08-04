@@ -5,7 +5,7 @@ namespace DeliveryStoreServices.Interfaces {
 
         Task<IEnumerable<ProductDto>> GetAllProductAsync(int? deleted = null);
         Task<ProductDto> CreateProductAsync(CreateProductDto newProductDto);
-        Task<ProductDto> ChangeProductAsync(ChangeProductDto newProductDto);
+        Task<ProductDto> ChangeProductAsync(Guid productId, ChangeProductDto newProductDto);
         Task<ProductDto> DeleteProductAsync(Guid productId);
     }
 }

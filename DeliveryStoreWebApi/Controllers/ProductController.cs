@@ -55,6 +55,16 @@ namespace DeliveryStoreWebApi.Controllers {
 
         }
 
+        // PUT api/<ProductController>/5
+        [HttpPut("{id}")]
+        public async Task<IActionResult> Put(Guid id, [FromBody] ChangeProductDto createProductDto) {
+            try {
+                return Ok(await _productService.ChangeProductAsync(id, createProductDto));
+            }
+            catch {
+                return NotFound();
+            }
+        }
 
     }
 }
