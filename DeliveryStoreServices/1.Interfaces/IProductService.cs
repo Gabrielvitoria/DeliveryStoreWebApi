@@ -3,9 +3,9 @@
 namespace DeliveryStoreServices._1.Interfaces {
     public interface IProductService {
 
-        public ProductDto GetAllProductAsync();
-        public ProductDto CreateProductAsync(ProductDto newProduct);
-        public ProductDto ChangeProductAsync(ChangeProductDto newProduct);
-        public ProductDto DeleteProductAsync(Guid productId);        
+        public Task<IEnumerable<ProductDto>> GetAllProductAsync();
+        public Task<ProductDto> CreateProductAsync(CreateProductDto newProductDto);
+        public Task<ProductDto> ChangeProductAsync(ChangeProductDto newProductDto);
+        public Task<ProductDto> DeleteProductAsync(Guid productId);        
     }
 }

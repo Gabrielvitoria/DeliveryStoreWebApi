@@ -3,11 +3,12 @@
         
         public Product() { }
 
-        public Product(string name, int quantity, bool deleted) {
+        public Product(string name, int quantity) {
             Id = Guid.NewGuid();
+            CreationDate = DateTime.Now;            
             Name = name;
             Quantity = quantity;
-            Deleted = deleted;
+            Deleted = false;
         }
         
         public string Name { get; private set; }
