@@ -1,22 +1,28 @@
-﻿namespace DeliveryStore.Tests {
+﻿using DeliveryStoreDomain.Entities;
+
+namespace DeliveryStore.Tests {
     public class SaleTests {
 
         [Fact]
-        public void DeveCriarPedidoVenda() {
+        public void ShouldCreateSale() {
 
-            Assert.Fail();
+            var product = new Product("Mouse", 10);
+            var product2 = new Product("Monitor", 1);
+            var product3 = new Product("Keyboard", 80);  
+
+            var itensOfSaleList = new List<SalesProductItens>();
+            itensOfSaleList.Add(new SalesProductItens(new Guid(product.Id), 1));
+            itensOfSaleList.Add(new SalesProductItens(new Guid(product2.Id), 2));
+            itensOfSaleList.Add(new SalesProductItens(new Guid(product3.Id), 1));
+
+
+            var sale = new Sale("28640-000", 10.0m, itensOfSaleList);
+
+
+            Assert.True(sale.SalesProductItens.Count == 3);
+            Assert.True(sale.SalesProductItens.Sum(x=> x.Quantity) == 4);
         }
 
-        [Fact]
-        public void DeveAlterarPedidoVenda() {
-
-            Assert.Fail();
-        }
-
-        [Fact]
-        public void DeveCancelarPedidoVenda() {
-
-            Assert.Fail();
-        }       
+          
     }
 }
