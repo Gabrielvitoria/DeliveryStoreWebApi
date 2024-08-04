@@ -30,7 +30,8 @@ namespace DeliveryStoreInfra {
                     CREATE TABLE IF NOT EXISTS Product (Id NVARCHAR(36) NOT NULL PRIMARY KEY, 
                                                         Name TEXT,
                                                         Quantity INTEGER,
-                                                        Deleted INTEGER);                    
+                                                        Deleted INTEGER,
+                                                        CreationDate TEXT);                    
                     """;
                 await connection.ExecuteAsync(sql);
             }

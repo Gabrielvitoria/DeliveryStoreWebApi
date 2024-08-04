@@ -2,7 +2,7 @@
     public class EntityBase {
 
         public string Id { get; set; }
-        public DateTime CreationDate { get; protected set; }
+        public string CreationDate { get; protected set; }
        
     }
 }

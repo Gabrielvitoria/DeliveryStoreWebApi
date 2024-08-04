@@ -1,4 +1,5 @@
 ﻿
+using DeliveryStoreCommon.Dtos.Product;
 using DeliveryStoreServices.Interfaces;
 using DeliveryStoreServices.Product;
 using Microsoft.AspNetCore.Mvc;
@@ -19,9 +20,9 @@ namespace DeliveryStoreWebApi.Controllers {
 
         // GET: api/<ProductController>
         [HttpGet]
-        public async Task<IActionResult> Get() {
+        public async Task<IActionResult> Get(int? deleted = null) {
             try {
-                return Ok(await _productService.GetAllProductAsync());
+                return Ok(await _productService.GetAllProductAsync(deleted));
             }
             catch (Exception ex) {
 
@@ -29,7 +30,31 @@ namespace DeliveryStoreWebApi.Controllers {
             }
         }
 
+        // POST api/<ProductController>
+        [HttpPost]
+        public async Task<IActionResult> Post([FromBody] CreateProductDto createProductDto) {
+            try {
+                return Ok(await _productService.CreateProductAsync(createProductDto));
+            }
+            catch (Exception ex) {
 
-    
+                return NotFound(ex.Message);
+            }
+        }
+
+        // DELETE api/<ProductController>/5
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> Delete(Guid id) {
+
+            try {
+                return Ok(await _productService.DeleteProductAsync(id));
+            }
+            catch {
+                return NotFound();
+            }
+
+        }
+
+
     }
 }

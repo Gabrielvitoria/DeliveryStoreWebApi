@@ -7,7 +7,7 @@
         }
         public Product(string name, int quantity) {
             Id = Guid.NewGuid().ToString();
-            CreationDate = DateTime.Now;
+            CreationDate = DateTime.Now.ToString();
             Name = name;
             Quantity = quantity;
             Deleted = 0;
