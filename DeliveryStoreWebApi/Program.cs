@@ -4,10 +4,14 @@
 using DeliveryStoreInfra;
 using DeliveryStoreInfra.Interfaces;
 using DeliveryStoreInfra.Repositories;
+using DeliveryStoreServices.External;
+using DeliveryStoreServices.Fees;
 using DeliveryStoreServices.Interfaces;
 using DeliveryStoreServices.Product;
 
+
 var builder = WebApplication.CreateBuilder(args);
+builder.Services.AddHttpClient();
 
 // Add services to the container.
 
@@ -16,18 +20,16 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-//var connection = builder.Configuration["ConexaoSqlite:SqliteConnectionString"];
-//builder.Services.AddDbContext<DeliveryContext>(options => options.UseSqlite(connection));
 
 builder.Services.AddSingleton<DeliveryContext>();
 
 //IoC Services
 builder.Services.AddScoped<IProductService, ProductService>();
-
+builder.Services.AddScoped<IShippingCalculationService, ShippingCalculationService>();
+builder.Services.AddScoped<IClientWebApiService, ClientWebApiService>();
 
 //IoC Repo
 builder.Services.AddScoped<IProductRepository, ProductRepository>();
-
 
 
 var app = builder.Build();

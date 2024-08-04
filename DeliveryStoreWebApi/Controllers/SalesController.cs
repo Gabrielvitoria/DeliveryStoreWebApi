@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using DeliveryStoreCommon.Dtos.Product;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace DeliveryStoreWebApi.Controllers {
@@ -9,7 +10,7 @@ namespace DeliveryStoreWebApi.Controllers {
 
         // POST api/<ProductController>
         [HttpPost]
-        public void Post([FromBody] string value) {
+        public void Post([FromBody] ProductDto product) {
         }
     }
 }
