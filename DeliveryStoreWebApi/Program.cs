@@ -1,6 +1,3 @@
-//using DeliveryStoreDomain.Interfaces;
-//using DeliveryStoreInfra.Repositories;
-
 using DeliveryStoreInfra;
 using DeliveryStoreInfra.Interfaces;
 using DeliveryStoreInfra.Repositories;
@@ -8,7 +5,7 @@ using DeliveryStoreServices.External;
 using DeliveryStoreServices.Fees;
 using DeliveryStoreServices.Interfaces;
 using DeliveryStoreServices.Product;
-
+using DeliveryStoreServices.Sales;
 
 var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddHttpClient();
@@ -20,16 +17,17 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-
 builder.Services.AddSingleton<DeliveryContext>();
 
 //IoC Services
 builder.Services.AddScoped<IProductService, ProductService>();
 builder.Services.AddScoped<IShippingCalculationService, ShippingCalculationService>();
 builder.Services.AddScoped<IClientWebApiService, ClientWebApiService>();
+builder.Services.AddScoped<ISaleService, SaleService>();
 
 //IoC Repo
 builder.Services.AddScoped<IProductRepository, ProductRepository>();
+builder.Services.AddScoped<ISalesRepository, SalesRepository>();
 
 
 var app = builder.Build();
@@ -48,6 +46,7 @@ var app = builder.Build();
 if (app.Environment.IsDevelopment()) {
     app.UseSwagger();
     app.UseSwaggerUI();
+
 }
 
 app.UseHttpsRedirection();

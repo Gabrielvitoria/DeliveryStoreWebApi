@@ -4,7 +4,7 @@ using Microsoft.Extensions.Configuration;
 using System.Data;
 
 namespace DeliveryStoreInfra {
-    public class DeliveryContext  {
+    public class DeliveryContext {
 
         protected readonly IConfiguration Configuration;
 
@@ -26,14 +26,36 @@ namespace DeliveryStoreInfra {
             await _initProduct();
 
             async Task _initProduct() {
-                var sql = """ 
-                    CREATE TABLE IF NOT EXISTS Product (Id NVARCHAR(36) NOT NULL PRIMARY KEY, 
-                                                        Name TEXT,
-                                                        Quantity INTEGER,
-                                                        Deleted INTEGER,
-                                                        CreationDate TEXT);                    
-                    """;
-                await connection.ExecuteAsync(sql);
+                var queryProductEntity = """ 
+                                        CREATE TABLE IF NOT EXISTS Product (Id NVARCHAR(36) NOT NULL PRIMARY KEY, 
+                                                                            Name TEXT,
+                                                                            Quantity INTEGER,
+                                                                            Deleted INTEGER,
+                                                                            CreationDate TEXT);                    
+                                        """;
+
+
+
+                var querySaleEntity = """ 
+                                        CREATE TABLE IF NOT EXISTS Sale (Id NVARCHAR(36) NOT NULL PRIMARY KEY, 
+                                                                            Code TEXT,
+                                                                            Status INTEGER,
+                                                                            ZipCode TEXT,
+                                                                            ShippingCost REAL,
+                                                                            CreationDate TEXT);                    
+                                        """;
+
+                var querySalesProductItensEntity = """ 
+                                        CREATE TABLE IF NOT EXISTS SalesProductItens (Id NVARCHAR(36) NOT NULL PRIMARY KEY, 
+                                                                            ProductId NVARCHAR(36),
+                                                                            Quantity INTEGER,
+                                                                            CreationDate TEXT);                    
+                                        """;
+
+
+                await connection.ExecuteAsync(queryProductEntity);
+                await connection.ExecuteAsync(querySaleEntity);
+                await connection.ExecuteAsync(querySalesProductItensEntity);
             }
         }
     }

@@ -19,6 +19,11 @@ namespace DeliveryStoreWebApi.Controllers {
         }
 
         // GET: api/<FeesController>
+        /// <summary>
+        /// Calculate shipping using postal code
+        /// </summary>
+        /// <param name="zipCode"></param>
+        /// <returns>Returns the shipping cost</returns>
         [Route("api/v1/ShippingCost")]
         [HttpGet]
         public async Task<IActionResult> GetShippingCost([FromQuery] string zipCode) {

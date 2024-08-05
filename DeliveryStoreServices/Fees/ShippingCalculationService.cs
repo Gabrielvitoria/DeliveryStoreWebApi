@@ -37,7 +37,7 @@ namespace DeliveryStoreServices.Fees {
 
         }
 
-        private CostOfStateValueObject GetCostOfStateByTable(string uf, string locality) {
+        public CostOfStateValueObject GetCostOfStateByTable(string uf, string locality) {
 
             var tableCost = CostOfStateValueObject.GetTableOfCost();
 

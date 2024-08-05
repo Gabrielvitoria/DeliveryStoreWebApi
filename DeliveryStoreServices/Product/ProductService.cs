@@ -12,12 +12,12 @@ namespace DeliveryStoreServices.Product {
 
         public async Task<ProductDto> ChangeProductAsync(Guid productId, ChangeProductDto productDto) {
 
-            if (productDto == null) { throw new NotImplementedException(); }
+            if (productDto == null) { throw new Exception("ERRO: product not found or invalid"); }
 
             try {
                 var product = await this._repository.GetProductByIdAsync(productId);
 
-                if (product == null) { throw new NotImplementedException(); }
+                if (product == null) { throw new Exception("ERRO: product not found or invalid"); }
 
                 product.Change(productDto.Name, productDto.Quantity);
 

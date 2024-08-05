@@ -3,8 +3,8 @@
 namespace DeliveryStoreInfra.Interfaces {
     public interface ISalesRepository {
 
-        public IEnumerable<Sale> GetAllAsync();
-        public Sale CreateAsync(Sale product);
-        public Sale UpdateAsync(Sale product);
+        Task<IEnumerable<Sale>> GetAllAsync();
+        Task<Sale> CreateAsync(Sale product);
+        Task<Sale> CancelAsync(Sale product);
     }
 }
