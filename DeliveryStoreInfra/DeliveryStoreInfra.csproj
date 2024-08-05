@@ -6,4 +6,16 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
+  <ItemGroup>
+    <PackageReference Include="Dapper" Version="2.1.35" />
+    <PackageReference Include="Microsoft.Data.Sqlite.Core" Version="8.0.7" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.Abstractions" Version="8.0.0" />
+    <PackageReference Include="SQLitePCLRaw.bundle_green" Version="2.1.8" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\DeliveryStoreCommon\DeliveryStoreCommon.csproj" />
+    <ProjectReference Include="..\DeliveryStoreDomain\DeliveryStoreDomain.csproj" />
+  </ItemGroup>
+
 </Project>

@@ -1,8 +1,11 @@
 ﻿namespace DeliveryStoreCommon.Dtos.Sales
 {
-    internal class SalesProductItensDto
+    public class SalesProductItensDto
     {
-        public Guid ProductId { get; set; }
+        public string Id { get; set; }
+        public string SaleId { get; set; }
+        public string CreationDate { get; set; }
+        public string ProductId { get; set; }
         public int Quantity { get; set; }
     }
 }

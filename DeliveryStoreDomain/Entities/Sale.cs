@@ -3,25 +3,32 @@
 
         public Sale(){ }
 
-        public Sale(string code, SaleStatusEnum status, string zipCode, string fees, IList<SalesProductItens> salesProductItens) {
-            Id = Guid.NewGuid();
-            Code = code;
-            Status = status;
+        public Sale(string zipCode, decimal shippingCost) {
+            Id = Guid.NewGuid().ToString();
+            CreationDate = DateTime.Now.ToString();
+            Code = $"{DateTime.Now.Hour}{DateTime.Now.Minute}{DateTime.Now.Second}{DateTime.Now.Nanosecond}";
+            Status = SaleStatusEnum.Pending;
             ZipCode = zipCode;
-            Fees = fees;
-            SalesProductItens = salesProductItens;
+            ShippingCost = shippingCost;
+            SalesProductItens = new List<SalesProductItens>(); 
         }
 
         public string Code { get; set; }
         public SaleStatusEnum Status { get; set; }
         public string ZipCode { get; set; }
-        public string Fees { get; set; }
-        public IList<SalesProductItens> SalesProductItens { get; set; } = new List<SalesProductItens>();
+        public decimal ShippingCost { get; set; }
+        public List<SalesProductItens> SalesProductItens { get; set; } = new List<SalesProductItens>();
 
 
         public void Cancel() {
             Status = SaleStatusEnum.Cancel;
         }
 
+        public void AddProduct(SalesProductItens salesProductItens) {
+            SalesProductItens.Add(salesProductItens);
+        }
+        public void AddProduct(List<SalesProductItens> salesProductItens) {
+            SalesProductItens.AddRange(salesProductItens);
+        }
     }
 }

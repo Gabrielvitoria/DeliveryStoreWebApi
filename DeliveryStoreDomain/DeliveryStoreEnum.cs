@@ -1,7 +1,9 @@
-﻿namespace DeliveryStoreDomain {
-    public enum SaleStatusEnum {
+﻿using System.ComponentModel;
 
-        Cancel = 1,
-        Pay = 2
+namespace DeliveryStoreDomain {
+    public enum SaleStatusEnum {
+        Pending = 1,
+        Cancel = 2,
+        Pay = 3
     }
 }

@@ -1,22 +1,35 @@
-﻿namespace DeliveryStore.Tests.ProductTests {
+﻿using DeliveryStoreDomain.Entities;
+
+namespace DeliveryStore.Tests.ProductTests {
     public class ProductTests {
 
         [Fact]
-        public void DeveCriarProduto() {
+        public void ShouldCreateProduct() {
 
-            Assert.Fail();
+            var product = new Product("Mouse", 1);
+            Assert.True(product.Id != string.Empty);
+            Assert.Equal("Mouse", product.Name);
+            Assert.Equal(1, product.Quantity);
+            Assert.Equal(DateTime.Now.Date, DateTime.Now.Date);
         }
 
         [Fact]
-        public void DeveAlterarProduto() {
+        public void ShouldChangeProduct() {
+            var product = new Product("Mouse", 1);
 
-            Assert.Fail();
+            product.Change("Mouse", 2);
+            Assert.True(product.Id != string.Empty);
+            Assert.Equal("Mouse", product.Name);
+            Assert.Equal(2, product.Quantity);
         }
 
         [Fact]
-        public void DeveDeletarUmProduto() {
+        public void ShouldDeleteProduct() {
+            var product = new Product("Mouse", 1);
 
-            Assert.Fail();
+            product.Delete();
+
+            Assert.Equal(1, product.Deleted);
         }
     }
 }

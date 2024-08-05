@@ -1,8 +1,8 @@
 ﻿namespace DeliveryStoreDomain.Entities {
     public class EntityBase {
 
-        public Guid Id { get; protected set; }
-        public DateTime CreationDate { get; protected set; }
-        public DateTime? ChangeDate { get; protected set; }
+        public string Id { get; set; }
+        public string CreationDate { get; protected set; }
+       
     }
 }

@@ -1,22 +1,25 @@
 ﻿namespace DeliveryStoreDomain.Entities {
     public class Product : EntityBase {
-        
-        public Product() { }
 
-        public Product(string name, int quantity, bool deleted) {
-            Id = Guid.NewGuid();
+        public Product()
+        {
+            
+        }
+        public Product(string name, int quantity) {
+            Id = Guid.NewGuid().ToString();
+            CreationDate = DateTime.Now.ToString();
             Name = name;
             Quantity = quantity;
-            Deleted = deleted;
+            Deleted = 0;
         }
-        
-        public string Name { get; private set; }
-        public int Quantity { get; private set; }
-        public bool Deleted { get; private set; }
+
+        public string Name { get; set; }
+        public int Quantity { get; set; }
+        public int Deleted { get; set; }
 
         #region Method
         public void Delete() {
-            Deleted = true;
+            Deleted = 1;
         }
 
         public void Change(string name, int quantity) {
