@@ -1,4 +1,6 @@
 ﻿using Dapper;
+using DeliveryStoreCommon.Dtos.Sales;
+using DeliveryStoreDomain;
 using DeliveryStoreDomain.Entities;
 using DeliveryStoreInfra.Interfaces;
 using System.Linq;
@@ -14,9 +16,11 @@ namespace DeliveryStoreInfra.Repositories {
             _context = context;
         }
     
+        public async Task CancelAsync(Guid saleId) {
 
-        public Task<Sale> CancelAsync(Sale sale) {
-            throw new NotImplementedException();
+            using var connection = _context.CreateConnection();
+            var sql = $" UPDATE Sale SET Status = 2 WHERE Id = \'{saleId.ToString()}\'" ;
+            await connection.ExecuteAsync(sql);
         }
 
         public async Task<Sale> CreateAsync(Sale newSale) {
@@ -29,16 +33,13 @@ namespace DeliveryStoreInfra.Repositories {
 
             await connection.ExecuteAsync(sql, newSale);
 
-
-
-            var sqlSaleItems = new StringBuilder(" INSERT INTO SalesProductItens (Id, ProductId, Quantity, CreationDate) VALUES ");
-
+            var sqlSaleItems = new StringBuilder(" INSERT INTO SalesProductItens (Id, SaleId, ProductId, Quantity, CreationDate) VALUES ");
 
             var last = newSale.SalesProductItens.Last();
 
             foreach (var item in newSale.SalesProductItens) {
 
-                var insertSalesProductItens = $"(\'{item.Id}\', \'{item.ProductId}\', {item.Quantity}, \'{item.CreationDate}\')";
+                var insertSalesProductItens = $"(\'{item.Id}\', '{newSale.Id}', \'{item.ProductId}\', {item.Quantity}, \'{item.CreationDate}\')";
 
                 if (last == item) {
                     insertSalesProductItens += ";";
@@ -56,8 +57,25 @@ namespace DeliveryStoreInfra.Repositories {
 
         }
 
-        public Task<IEnumerable<Sale>> GetAllAsync() {
-            throw new NotImplementedException();
+        public async Task<IEnumerable<SaleDto>> GetAllAsync(Guid? saleId = null, string ? codeOrder = null, SaleStatusEnum? status = null) {
+           
+            using var connection = _context.CreateConnection();
+            var querySales = new StringBuilder();
+
+            querySales.AppendLine(" SELECT * FROM Sale WHERE 0 = 0 ");
+
+            if (!string.IsNullOrEmpty(codeOrder)) {
+                querySales.AppendLine("AND Code = @codeOrder");
+            }
+            else if(status != null) {
+                querySales.AppendLine($"AND Status = {(int)status.Value}");
+            }
+            else if(saleId != null) {
+                querySales.AppendLine($"AND Id = \'{saleId.ToString()}\'");
+            }
+
+            return await connection.QueryAsync<SaleDto>(querySales.ToString(), new { codeOrder });
         }
+       
     }
 }

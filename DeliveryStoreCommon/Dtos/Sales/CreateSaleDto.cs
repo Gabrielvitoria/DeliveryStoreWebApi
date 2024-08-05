@@ -2,6 +2,6 @@
 {
     public class CreateSaleDto {
         public string ZipCode { get; set; }
-        public List<CreateSalesProductItensDto> Itens { get; set; } = new List<CreateSalesProductItensDto>();
+        public List<CreateSalesProductItensDto> Items { get; set; } = new List<CreateSalesProductItensDto>();
     }
 }

@@ -48,6 +48,7 @@ namespace DeliveryStoreInfra {
                 var querySalesProductItensEntity = """ 
                                         CREATE TABLE IF NOT EXISTS SalesProductItens (Id NVARCHAR(36) NOT NULL PRIMARY KEY, 
                                                                             ProductId NVARCHAR(36),
+                                                                            SaleId NVARCHAR(36),
                                                                             Quantity INTEGER,
                                                                             CreationDate TEXT);                    
                                         """;

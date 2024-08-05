@@ -35,6 +35,7 @@ namespace DeliveryStoreWebApi.Controllers {
         [HttpPut]
         public async Task<IActionResult> Put([FromBody] Guid saleId) {
             try {
+                await _saleService.CancelSaleAsync(saleId);
                 return Ok();
             }
             catch (Exception ex) {
@@ -45,9 +46,9 @@ namespace DeliveryStoreWebApi.Controllers {
 
         // GET: api/<SalesController>
         [HttpGet]
-        public async Task<IActionResult> Get(SaleStatusEnum? status = null) {
+        public async Task<IActionResult> Get(string? codeOrder = null, SaleStatusEnum? status = null) {
             try {
-                return Ok();
+                return Ok(await _saleService.GetAllSaleAsync(codeOrder, status));
             }
             catch (Exception ex) {
 
@@ -55,6 +56,18 @@ namespace DeliveryStoreWebApi.Controllers {
             }
         }
 
+        // GET: api/<SalesController>
+        [Route("SalesProductItens")]
+        [HttpGet]
+        public async Task<IActionResult> GetAllSalesProductItensAsync(Guid saleId) {
+            try {
+                return Ok(await _saleService.GetAllSalesProductItensAsync(saleId));
+            }
+            catch (Exception ex) {
+
+                return NotFound(ex.Message);
+            }
+        }
 
     }
 }

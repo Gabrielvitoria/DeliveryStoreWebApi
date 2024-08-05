@@ -28,6 +28,7 @@ builder.Services.AddScoped<ISaleService, SaleService>();
 //IoC Repo
 builder.Services.AddScoped<IProductRepository, ProductRepository>();
 builder.Services.AddScoped<ISalesRepository, SalesRepository>();
+builder.Services.AddScoped<ISalesProductItensRepository, SalesProductItensRepository>();
 
 
 var app = builder.Build();

@@ -33,7 +33,9 @@ namespace DeliveryStoreServices.Product {
 
         public async Task<ProductDto> CreateProductAsync(CreateProductDto newProductDto) {
 
-            if (newProductDto == null) { throw new NotImplementedException(); }
+            if (newProductDto == null) { throw new Exception("ERRO: new product invalid"); }
+
+            if (newProductDto.Quantity == 0) { throw new Exception("ERRO: The quantity of this product cannot be equal to zero"); }
 
             try {
 
