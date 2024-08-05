@@ -13,11 +13,11 @@ Features:
 
 # Executando app Delivery Store API com Docker
 
-> Para criar imagem Docker: 
-docker build -t delivery-store-api-image -f  DeliveryStoreWebApi/Dockerfile .
+> Para criar imagem Docker:
+- docker build -t delivery-store-api-image -f  DeliveryStoreWebApi/Dockerfile .
 
-> Para executar o App
-docker run --rm -p 4000:44356 delivery-store-api-image -e "ASPNETCORE_ENVIRONMENT=Development"
+> Para executar o App:
+- docker run --rm -p 4000:44356 delivery-store-api-image -e "ASPNETCORE_ENVIRONMENT=Development"
 
 > Acessar web
-http://localhost:4000/swagger/index.html
+- http://localhost:4000/swagger/index.html
