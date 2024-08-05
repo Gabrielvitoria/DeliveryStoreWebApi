@@ -2,12 +2,24 @@
 
 FROM mcr.microsoft.com/dotnet/aspnet:8.0-preview AS base
 WORKDIR /app
-EXPOSE 80
+EXPOSE 8080
 EXPOSE 443
+EXPOSE 44356
+
+ENV ASPNETCORE_URLS=http://*:44356
+ENV ASPNETCORE_ENVIRONMENT="Development"
 
 FROM mcr.microsoft.com/dotnet/sdk:8.0-preview AS build
+COPY . ./src
 WORKDIR /src
 COPY ["DeliveryStoreWebApi/DeliveryStoreWebApi.csproj", "DeliveryStoreWebApi/"]
+COPY ["DeliveryStoreServices/DeliveryStoreServices.csproj", "DeliveryStoreWebApi/DeliveryStoreServices"]
+COPY ["DeliveryStoreInfra/DeliveryStoreInfra.csproj", "DeliveryStoreWebApi/DeliveryStoreInfra"]
+COPY ["DeliveryStoreDomain/DeliveryStoreDomain.csproj", "DeliveryStoreWebApi/DeliveryStoreDomain"]
+COPY ["DeliveryStoreCommon/DeliveryStoreCommon.csproj", "DeliveryStoreWebApi/DeliveryStoreCommon"]
+COPY ["DeliveryStore.Tests/DeliveryStore.Tests.csproj", "DeliveryStoreWebApi/DeliveryStore.Tests"]
+
+
 RUN dotnet restore "DeliveryStoreWebApi/DeliveryStoreWebApi.csproj"
 COPY . .
 WORKDIR "/src/DeliveryStoreWebApi"
