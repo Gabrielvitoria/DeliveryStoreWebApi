@@ -68,7 +68,7 @@ namespace DeliveryStoreInfra.Repositories {
 
             sql.Append("SELECT Id, Name, Quantity, Deleted, CreationDate FROM Product WHERE 0 = 0 ");
 
-            var whereId = string.Join(",", $"\'{ids}\'"); 
+            var whereId = string.Join(",", ids.Select(z => "'" + z.ToString() + "'")); 
 
             sql.AppendLine($" AND Id IN ({whereId})");
 
