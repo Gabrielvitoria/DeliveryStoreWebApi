@@ -52,10 +52,10 @@ namespace DeliveryStoreServices.Product {
             }
         }
 
-        public async Task<IEnumerable<ProductDto>> GetAllProductAsync(int? deleted = null) {
+        public async Task<IEnumerable<ProductDto>> GetAllProductAsync(Guid? id = null, string? name = null, bool? showDeleted = null) {
 
             try {
-                var products = await this._repository.GetAllAsync(deleted);
+                var products = await this._repository.GetAllAsync(id, name, showDeleted);
 
                 var productDtos = new List<ProductDto>();
 

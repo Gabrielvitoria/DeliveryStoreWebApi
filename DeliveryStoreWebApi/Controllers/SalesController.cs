@@ -32,8 +32,8 @@ namespace DeliveryStoreWebApi.Controllers {
 
         // POST api/<ProductController>
         [Route("Cancel")]
-        [HttpPut]
-        public async Task<IActionResult> Put([FromBody] Guid saleId) {
+        [HttpPatch]
+        public async Task<IActionResult> Patch([FromBody] Guid saleId) {
             try {
                 await _saleService.CancelSaleAsync(saleId);
                 return Ok();

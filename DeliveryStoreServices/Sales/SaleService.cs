@@ -11,14 +11,17 @@ namespace DeliveryStoreServices.Sales {
         private readonly IShippingCalculationService _shippingCalculationService;
         private readonly ISalesRepository _salesRepository;
         private readonly ISalesProductItensRepository _salesProductItensRepository;
+        private readonly IProductRepository _productRepository;
 
         public SaleService(
             IShippingCalculationService shippingCalculationService,
             ISalesRepository salesRepository,
-            ISalesProductItensRepository salesProductItensRepository) {
+            ISalesProductItensRepository salesProductItensRepository,
+            IProductRepository productRepository) {
             _shippingCalculationService = shippingCalculationService;
             _salesRepository = salesRepository;
             _salesProductItensRepository = salesProductItensRepository;
+            _productRepository = productRepository;
         }
 
         public async Task<SaleDto> CreateSaleAsync(CreateSaleDto createSaleDto) {
@@ -30,9 +33,16 @@ namespace DeliveryStoreServices.Sales {
                 if (createSaleDto.Items.GroupBy(x => x.ProductId).Any(g => g.Count() > 1)) {
                     throw new Exception("ERRO: It is not allowed to create a sale with a duplicate product. Change the quantity of the product.");
                 }
+
+                var allProductExist = await _productRepository.GetAllAsync(createSaleDto.Items.Select(x => x.ProductId).ToList());
+
+                if (!allProductExist.Any() || allProductExist.Count() != createSaleDto.Items.Count()) {
+                    throw new Exception("ERRO: Exist one or plus product to send not present in database");
+                }
+
                 var shippingCost = await _shippingCalculationService.GetShippingCostAsync(createSaleDto.ZipCode);
 
-                var sale = new Sale(createSaleDto.ZipCode, shippingCost);
+                var sale = new Sale(createSaleDto.ZipCode, shippingCost.Cost);
 
                 var itemsOfSale = new List<SalesProductItens>();
 

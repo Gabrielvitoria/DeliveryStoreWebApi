@@ -1,16 +1,27 @@
 ﻿using DeliveryStoreCommon.Dtos.External;
 using DeliveryStoreDomain.ValueObject;
 using DeliveryStoreServices.Interfaces;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Options;
 
 namespace DeliveryStoreServices.Fees {
     public class ShippingCalculationService : IShippingCalculationService {
 
         private readonly IClientWebApiService _clientWebApiService;
-        public ShippingCalculationService(IClientWebApiService clientWebApiService) {
+        private readonly IConfiguration _configuration;
+        private readonly CompanyValueObject _company;
+        private readonly ShippingCostValueObject _shippingCost;
+
+        public ShippingCalculationService(IClientWebApiService clientWebApiService, 
+            IOptions<CompanyValueObject> company,
+            IOptions<ShippingCostValueObject> shippingCost
+            ) {
             _clientWebApiService = clientWebApiService;
+            _company = company.Value;
+            _shippingCost = shippingCost.Value;
         }
 
-        public async Task<decimal> GetShippingCostAsync(string zipCode) {
+        public async Task<CostOfStateValueObject> GetShippingCostAsync(string zipCode) {
 
             try {
 
@@ -18,16 +29,16 @@ namespace DeliveryStoreServices.Fees {
 
                 var zipCodeDetail = await this.GetInfoByZipCode(zipCode);
 
-                if(zipCodeDetail == null || zipCodeDetail.Invalid) { throw new Exception("ERRO: Zip code not found or invalid"); }
+                if (zipCodeDetail == null || zipCodeDetail.Invalid) { throw new Exception("ERRO: Zip code not found or invalid"); }
 
-                var tableCost = GetCostOfStateByTable(zipCodeDetail.uf, zipCodeDetail.localidade);
+                var tableCost = GetCostOfStateByTable(zipCodeDetail);
 
-                return tableCost.Cost;
+                return tableCost;
             }
             catch (Exception ex) {
 
                 throw ex;
-            }           
+            }
         }
 
 
@@ -37,15 +48,17 @@ namespace DeliveryStoreServices.Fees {
 
         }
 
-        public CostOfStateValueObject GetCostOfStateByTable(string uf, string locality) {
+        public CostOfStateValueObject GetCostOfStateByTable(ZipCodeResponse zipCodeResponse) {           
 
-            var tableCost = CostOfStateValueObject.GetTableOfCost();
+            var tableCost = CostOfStateValueObject.GetTableOfCost(_company, _shippingCost);
 
-            var cost = tableCost.FirstOrDefault(x => (x.Uf.Equals(uf) && x.Local.Equals(locality)) ||
-                                                     (x.Uf.Equals(uf) && x.Local == string.Empty) ||
-                                                     (x.Uf == string.Empty && x.Local == string.Empty)
+            var cost = tableCost.FirstOrDefault(x => (x.Uf.Equals(zipCodeResponse.uf) && x.IbgeCode.Equals(zipCodeResponse.ibge)) ||
+                                                     (x.Uf.Equals(zipCodeResponse.uf) && x.IbgeCode == "") ||
+                                                     (x.Uf == "" && x.IbgeCode == "")
                                                 );
-
+            cost.Uf = zipCodeResponse.uf;
+            cost.IbgeCode = zipCodeResponse.ibge;
+            cost.localidade = zipCodeResponse.localidade;
             return cost;
         }
 
