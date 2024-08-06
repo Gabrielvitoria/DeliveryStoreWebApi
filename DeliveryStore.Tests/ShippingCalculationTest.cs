@@ -1,11 +1,6 @@
-﻿using DeliveryStoreDomain.Entities;
+﻿using DeliveryStoreDomain.ValueObject;
 using DeliveryStoreServices.Interfaces;
 using Moq;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace DeliveryStore.Tests {
     public class ShippingCalculationTest {
@@ -16,37 +11,43 @@ namespace DeliveryStore.Tests {
 
         [Fact]
         public async void ShouldGetTableValueOfCost10() {
+
+            var costOfStateValueObject = new CostOfStateValueObject { Cost = 10};
+
             var shipCalcMock = new Mock<IShippingCalculationService>();
-            shipCalcMock.Setup(x => x.GetShippingCostAsync(It.IsAny<string>())).ReturnsAsync(10m);
+            shipCalcMock.Setup(x => x.GetShippingCostAsync(It.IsAny<string>())).ReturnsAsync(costOfStateValueObject);
             this.shippingCalculationService = shipCalcMock.Object;
 
             var tableCost = await shippingCalculationService.GetShippingCostAsync("2912555");
 
-            Assert.Equal(10, tableCost);
+            Assert.Equal(10, tableCost.Cost);
 
         }
 
         [Fact]
         public async void ShouldGetTableValueOfCost20() {
+            var costOfStateValueObject = new CostOfStateValueObject { Cost = 20};
             var shipCalcMock = new Mock<IShippingCalculationService>();
-            shipCalcMock.Setup(x => x.GetShippingCostAsync(It.IsAny<string>())).ReturnsAsync(20m);
+            shipCalcMock.Setup(x => x.GetShippingCostAsync(It.IsAny<string>())).ReturnsAsync(costOfStateValueObject);
             this.shippingCalculationService = shipCalcMock.Object;
 
             var tableCost = await shippingCalculationService.GetShippingCostAsync("2912555");
 
-            Assert.Equal(20, tableCost);
+            Assert.Equal(20, tableCost.Cost);
 
         }
 
         [Fact]
         public async void ShouldGetTableValueOfCost40() {
+            var costOfStateValueObject = new CostOfStateValueObject { Cost = 40};
+
             var shipCalcMock = new Mock<IShippingCalculationService>();
-            shipCalcMock.Setup(x => x.GetShippingCostAsync(It.IsAny<string>())).ReturnsAsync(40m);
+            shipCalcMock.Setup(x => x.GetShippingCostAsync(It.IsAny<string>())).ReturnsAsync(costOfStateValueObject);
             this.shippingCalculationService = shipCalcMock.Object;
 
             var tableCost = await shippingCalculationService.GetShippingCostAsync("2912555");
 
-            Assert.Equal(20, tableCost);
+            Assert.Equal(40, tableCost.Cost);
 
         }
 

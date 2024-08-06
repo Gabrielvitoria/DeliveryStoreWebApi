@@ -20,9 +20,9 @@ namespace DeliveryStoreWebApi.Controllers {
 
         // GET: api/<ProductController>
         [HttpGet]
-        public async Task<IActionResult> Get(int? deleted = null) {
+        public async Task<IActionResult> Get(Guid? id = null, string? name = null, bool? showDeleted = null) {
             try {
-                return Ok(await _productService.GetAllProductAsync(deleted));
+                return Ok(await _productService.GetAllProductAsync(id, name, showDeleted));
             }
             catch (Exception ex) {
 
